@@ -51,10 +51,11 @@ button {
 }
 
 .option {
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px 1fr;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 14px;
+  padding: 16px 18px;
   margin: 12px 0;
   background: #f3f6f9;
   border-radius: 10px;
@@ -63,11 +64,14 @@ button {
   font-size: 16px;
   line-height: 1.4;
   white-space: normal;
-  word-wrap: break-word;
 }
 
-.option:hover {
-  background: #e6eef6;
+.option input {
+  margin: 0;
+}
+
+.option div {
+  text-align: left;
 }
 
 .hidden { display:none; }
