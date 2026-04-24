@@ -51,13 +51,23 @@ button {
 }
 
 .option {
-  display: block;
-  padding: 14px;
-  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  margin: 12px 0;
   background: #f3f6f9;
-  border-radius: 8px;
+  border-radius: 10px;
   text-align: left;
   cursor: pointer;
+  font-size: 16px;
+  line-height: 1.4;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.option:hover {
+  background: #e6eef6;
 }
 
 .hidden { display:none; }
@@ -104,21 +114,21 @@ button {
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfErxwUbT8awFocSFkemx19yTmRYEarOopBthlQ_ovTYfuRuCSXSLD9ylU5So76Nhw/exec";
 
 const questions = [
-{q:"What is the primary role of a PBM?",options:["Manufacture drugs","Administer drug benefits","Underwrite plans","Process claims"],answer:1},
+{q:"What is the primary role of a PBM?",options:["Manufacture drugs","Administer prescription drug benefits and negotiate pricing","Underwrite health plans","Process claims only"],answer:1},
 {q:"Who bears risk in self-funded plans?",options:["Carrier","PBM","Employer","Pharmacy"],answer:2},
-{q:"Role of TPA?",options:["Admin claims","Stop-loss","Pricing","Manufacturing"],answer:0},
-{q:"Stop-loss purpose?",options:["Limit liability","Eliminate cost","Lower premiums","Replace PBM"],answer:0},
-{q:"Why voluntary programs?",options:["FDA","PBM","ERISA flexibility","Disruption"],answer:2},
-{q:"Why NDC data?",options:["Reconciliation","Eligibility","Wholesale","Remove TPA"],answer:0},
-{q:"Pricing formula?",options:["A","(PBM-SS)xPBC+SS","C","D"],answer:1},
-{q:"Goal of specialty programs?",options:["Increase","Remove PBM","Shift cost","Reduce spend"],answer:3},
-{q:"PBM relationship?",options:["Regulated","None","Manufacture","Network contracts"],answer:3},
-{q:"Why specialty focus?",options:["Rare","Generic","Low impact","High cost"],answer:3},
-{q:"Rebates impact?",options:["Reduce net","Lower copay","Pay pharmacy","Remove formulary"],answer:0},
-{q:"Level vs self funded?",options:["No risk","Fixed","Hybrid","Gov"],answer:2},
-{q:"Savings difference?",options:["Same","Immediate","None","Self-funded direct"],answer:3},
+{q:"Role of TPA?",options:["Administer claims and plan operations","Provide stop-loss","Set drug pricing","Manufacture drugs"],answer:0},
+{q:"Stop-loss purpose?",options:["Limit employer liability","Eliminate all costs","Lower premiums","Replace PBM"],answer:0},
+{q:"Why voluntary programs?",options:["FDA compliance","PBM requirement","Avoid ERISA issues and maintain choice","Increase disruption"],answer:2},
+{q:"Why NDC data?",options:["Reconciliation and validation","Eligibility replacement","Wholesale pricing","Remove TPA"],answer:0},
+{q:"Pricing formula?",options:["PBM+SS","(PBM-SS)xPBC+SS","PBM x PBC","SS only"],answer:1},
+{q:"Goal of specialty programs?",options:["Increase use","Remove PBM","Shift cost","Reduce total spend"],answer:3},
+{q:"PBM relationship?",options:["Regulated by pharmacies","No interaction","Manufacture drugs","Network contracts & pricing"],answer:3},
+{q:"Why specialty focus?",options:["Rare use","Always generic","Low impact","High % of spend"],answer:3},
+{q:"Rebates impact?",options:["Reduce net cost","Lower copays","Pay pharmacy","Remove formularies"],answer:0},
+{q:"Level vs self funded?",options:["No risk","Fixed only","Hybrid structure","Government plan"],answer:2},
+{q:"Savings difference?",options:["Same","Immediate","None","Self-funded direct savings"],answer:3},
 {q:"Coalition risk?",options:["Diluted savings","Full retain","No tracking","PBM replaces"],answer:0},
-{q:"Stop-loss types?",options:["Wrong","Wrong","Correct protection split","Same"],answer:2}
+{q:"Stop-loss types?",options:["Wrong","Wrong","Specific vs aggregate protection","Same"],answer:2}
 ];
 
 let currentQuestion=0;
@@ -148,7 +158,11 @@ let optionsDiv=document.getElementById("options");
 optionsDiv.innerHTML="";
 
 q.options.forEach((opt,i)=>{
-optionsDiv.innerHTML+=`<label class="option"><input type="radio" name="a" value="${i}"> ${["A","B","C","D"][i]}. ${opt}</label>`;
+optionsDiv.innerHTML += `
+<label class="option">
+<input type="radio" name="a" value="${i}">
+<div><strong>${["A","B","C","D"][i]}.</strong> ${opt}</div>
+</label>`;
 });
 
 startTime=new Date();
