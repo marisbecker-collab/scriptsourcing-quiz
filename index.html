@@ -51,26 +51,24 @@ button {
 }
 
 .option {
-  display: grid;
-  grid-template-columns: 24px 1fr;
+  display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   padding: 16px 18px;
   margin: 12px 0;
   background: #f3f6f9;
   border-radius: 10px;
-  text-align: left;
   cursor: pointer;
   font-size: 16px;
   line-height: 1.4;
-  white-space: normal;
 }
 
 .option input {
   margin: 0;
 }
 
-.option div {
+.option span {
+  display: inline-block;
   text-align: left;
 }
 
@@ -164,10 +162,10 @@ optionsDiv.innerHTML="";
 q.options.forEach((opt,i)=>{
 optionsDiv.innerHTML += `
 <label class="option">
-<input type="radio" name="a" value="${i}">
-<div><strong>${["A","B","C","D"][i]}.</strong> ${opt}</div>
-</label>`;
-});
+  <input type="radio" name="a" value="${i}">
+  <span><strong>${["A","B","C","D"][i]}.</strong> ${opt}</span>
+</label>
+`;
 
 startTime=new Date();
 }
