@@ -6,82 +6,117 @@
 
 <style>
 body {
-  font-family: "Segoe UI", Arial;
+  font-family: "Segoe UI", Arial, sans-serif;
   background: linear-gradient(135deg, #eaf1f7, #f8fbfd);
   margin: 0;
 }
 
 .container {
-  max-width: 800px;
-  margin: 40px auto;
+  max-width: 850px;
+  margin: 35px auto;
+  padding: 20px;
 }
 
 .card {
   background: white;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 44px;
+  border-radius: 18px;
+  box-shadow: 0 10px 34px rgba(0,0,0,0.10);
   text-align: center;
 }
 
 .logo {
   width: 220px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
-input {
+h1 {
+  color: #1f4e79;
+  font-size: 38px;
+}
+
+h2 {
+  color: #111;
+  font-size: 25px;
+  line-height: 1.35;
+}
+
+.name-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+input[type="text"] {
   width: 100%;
-  padding: 16px;
-  margin-top: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #c8d3dc;
+  font-size: 17px;
+  box-sizing: border-box;
+}
+
+input[type="radio"] {
+  width: auto;
+  margin: 3px 12px 0 0;
+  flex-shrink: 0;
 }
 
 button {
-  margin-top: 20px;
+  margin-top: 24px;
   width: 100%;
-  padding: 16px;
+  padding: 17px;
   font-size: 18px;
+  font-weight: 700;
   background: #1f4e79;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
 }
 
 .option {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
   padding: 16px 18px;
   margin: 12px 0;
   background: #f3f6f9;
   border-radius: 10px;
+  text-align: left;
   cursor: pointer;
   font-size: 16px;
-  line-height: 1.4;
-}
-
-.option input {
-  margin: 0;
+  line-height: 1.45;
+  white-space: normal;
 }
 
 .option span {
-  display: inline-block;
-  text-align: left;
+  display: block;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
-.hidden { display:none; }
+.hidden {
+  display: none;
+}
 
-.progress { text-align:left; font-weight:bold; }
-.timer { text-align:left; font-size:13px; color:#666; }
+.progress {
+  text-align: left;
+  font-weight: bold;
+  color: #1f4e79;
+}
 
+.timer {
+  text-align: left;
+  font-size: 13px;
+  color: #666;
+}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 <div class="card">
 
@@ -90,128 +125,146 @@ button {
 <h1>ScriptSourcing Quiz</h1>
 
 <div id="nameScreen">
-<input id="firstName" placeholder="First Name">
-<input id="lastName" placeholder="Last Name">
-<button onclick="startQuiz()">Start Quiz</button>
+  <div class="name-row">
+    <input type="text" id="firstName" placeholder="First Name">
+    <input type="text" id="lastName" placeholder="Last Name">
+  </div>
+  <button onclick="startQuiz()">Start Quiz</button>
 </div>
 
 <div id="quizScreen" class="hidden">
-<div class="progress" id="progress"></div>
-<div class="timer" id="timer"></div>
-<h2 id="questionText"></h2>
-<div id="options"></div>
-<button id="nextButton" onclick="nextQuestion()">Next</button>
+  <div class="progress" id="progress"></div>
+  <div class="timer" id="timer"></div>
+  <h2 id="questionText"></h2>
+  <div id="options"></div>
+  <button id="nextButton" onclick="nextQuestion()">Next</button>
 </div>
 
 <div id="resultScreen" class="hidden">
-<h2>Submitted ✅</h2>
-<p id="resultText"></p>
+  <h2>Submitted ✅</h2>
+  <p id="resultText"></p>
 </div>
 
 </div>
 </div>
 
 <script>
-
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyfErxwUbT8awFocSFkemx19yTmRYEarOopBthlQ_ovTYfuRuCSXSLD9ylU5So76Nhw/exec";
 
 const questions = [
-{q:"What is the primary role of a PBM?",options:["Manufacture drugs","Administer prescription drug benefits and negotiate pricing","Underwrite health plans","Process claims only"],answer:1},
-{q:"Who bears risk in self-funded plans?",options:["Carrier","PBM","Employer","Pharmacy"],answer:2},
-{q:"Role of TPA?",options:["Administer claims and plan operations","Provide stop-loss","Set drug pricing","Manufacture drugs"],answer:0},
-{q:"Stop-loss purpose?",options:["Limit employer liability","Eliminate all costs","Lower premiums","Replace PBM"],answer:0},
-{q:"Why voluntary programs?",options:["FDA compliance","PBM requirement","Avoid ERISA issues and maintain choice","Increase disruption"],answer:2},
-{q:"Why NDC data?",options:["Reconciliation and validation","Eligibility replacement","Wholesale pricing","Remove TPA"],answer:0},
-{q:"Pricing formula?",options:["PBM+SS","(PBM-SS)xPBC+SS","PBM x PBC","SS only"],answer:1},
-{q:"Goal of specialty programs?",options:["Increase use","Remove PBM","Shift cost","Reduce total spend"],answer:3},
-{q:"PBM relationship?",options:["Regulated by pharmacies","No interaction","Manufacture drugs","Network contracts & pricing"],answer:3},
-{q:"Why specialty focus?",options:["Rare use","Always generic","Low impact","High % of spend"],answer:3},
-{q:"Rebates impact?",options:["Reduce net cost","Lower copays","Pay pharmacy","Remove formularies"],answer:0},
-{q:"Level vs self funded?",options:["No risk","Fixed only","Hybrid structure","Government plan"],answer:2},
-{q:"Savings difference?",options:["Same","Immediate","None","Self-funded direct savings"],answer:3},
-{q:"Coalition risk?",options:["Diluted savings","Full retain","No tracking","PBM replaces"],answer:0},
-{q:"Stop-loss types?",options:["Wrong","Wrong","Specific vs aggregate protection","Same"],answer:2}
+{q:"What is the primary role of a PBM (Pharmacy Benefit Manager)?",options:["To manufacture medications","To administer prescription drug benefits and negotiate pricing","To underwrite health insurance policies","To process medical claims only"],answer:1},
+{q:"In a self-funded health plan, who ultimately bears the financial risk of claims?",options:["The insurance carrier","The PBM","The employer","The pharmacy"],answer:2},
+{q:"What is the primary function of a TPA (Third-Party Administrator)?",options:["Administer claims and plan operations on behalf of employers","Provide stop-loss coverage","Set drug pricing","Manufacture drugs"],answer:0},
+{q:"What is stop-loss insurance designed to do in a self-funded plan?",options:["Cap employer liability on high-cost claims","Eliminate all claims costs","Reduce employee premiums","Replace the PBM"],answer:0},
+{q:"From a plan design perspective, why are ScriptSourcing programs typically structured as voluntary rather than mandatory?",options:["To comply with FDA drug sourcing regulations","Because voluntary participation increases disruption to PBM formularies","To avoid potential ERISA and plan compliance complications while maintaining member choice","Because PBMs require all alternative programs to be optional"],answer:2},
+{q:"Beyond basic identification, why is NDC-level data critical for integrating ScriptSourcing invoices with PBM reporting?",options:["It allows reconciliation of drug-level claims, pricing validation, and alignment across disparate data sources","It replaces the need for member eligibility files","It ensures all medications are billed at wholesale acquisition cost","It eliminates the need for TPAs"],answer:0},
+{q:"In the context of ScriptSourcing invoices, how are medication prices calculated?",options:["PBM cost + SS cost","(PBM cost - SS cost) x PBC + SS cost","PBM cost x PBC only","SS cost x PBC only"],answer:1},
+{q:"What is a key goal of programs targeting high-cost specialty drugs?",options:["Increase utilization","Eliminate PBMs entirely","Shift all costs to employees","Reduce net plan spend through alternative sourcing strategies"],answer:3},
+{q:"Which of the following best describes the relationship between PBMs and pharmacies?",options:["Pharmacies regulate PBMs","They operate independently with no interaction","PBMs manufacture drugs for pharmacies","PBMs contract with pharmacies to create networks and reimbursement rates"],answer:3},
+{q:"Why are specialty medications a major focus for cost-containment strategies?",options:["They are rarely used","They are always generic","They have low clinical impact","They represent a disproportionate share of total pharmacy spend"],answer:3},
+{q:"Which of the following best explains how rebates impact the true net cost of a medication in a PBM-managed plan?",options:["Rebates are paid after the fact and reduce the plan sponsor’s net cost, often lacking full transparency","Rebates are applied at the point of sale to reduce member copays","Rebates are paid to pharmacies to lower dispensing fees","Rebates eliminate the need for formulary management"],answer:0},
+{q:"Which of the following best distinguishes a level-funded health plan from a traditional self-funded plan?",options:["Level-funded plans eliminate all employer claims risk entirely","Self-funded plans have fixed monthly payments with no year-end reconciliation","Level-funded plans combine fixed monthly payments with stop-loss protection, while self-funded plans have more variable cash flow and direct claims volatility","Self-funded plans are only available to large employers, while level-funded plans are government-sponsored"],answer:2},
+{q:"In the context of implementing cost-containment strategies like ScriptSourcing, which of the following best distinguishes the financial impact between self-funded and level-funded health plans?",options:["Both models guarantee identical savings retention regardless of claims performance","Level-funded plans immediately pass through all savings at the point of sale","Self-funded plans do not benefit from cost-containment strategies","Self-funded plans directly realize claim savings as they occur, while level-funded plans may reflect savings through reduced claims utilization and potential year-end surplus refunds"],answer:3},
+{q:"In a coalition or grouped-risk arrangement, what is a key implication for an individual employer implementing cost-saving strategies like ScriptSourcing?",options:["Savings may be diluted across the broader risk pool depending on structure","All savings are fully retained by the individual employer","Claims are no longer tracked at the employer level","PBMs eliminate the need for coalitions"],answer:0},
+{q:"Which of the following best distinguishes specific vs. aggregate stop-loss coverage in a self-funded health plan?",options:["Specific stop-loss limits total plan spending across all members, while aggregate stop-loss applies to individual high-cost claims","Aggregate stop-loss applies only to specialty drugs, while specific stop-loss applies to all other claims","Specific stop-loss protects against high-cost individual claims, while aggregate stop-loss protects against total claims exceeding expected thresholds for the group","There is no functional difference between specific and aggregate stop-loss"],answer:2}
 ];
 
-let currentQuestion=0;
-let answers=[];
-let firstName,lastName,startTime;
+let currentQuestion = 0;
+let answers = [];
+let firstName = "";
+let lastName = "";
+let startTime;
 
-function startQuiz(){
-firstName=document.getElementById("firstName").value;
-lastName=document.getElementById("lastName").value;
-if(!firstName||!lastName){alert("Enter name");return;}
+function startQuiz() {
+  firstName = document.getElementById("firstName").value.trim();
+  lastName = document.getElementById("lastName").value.trim();
 
-document.getElementById("nameScreen").classList.add("hidden");
-document.getElementById("quizScreen").classList.remove("hidden");
+  if (!firstName || !lastName) {
+    alert("Please enter both first and last name.");
+    return;
+  }
 
-showQuestion();
+  document.getElementById("nameScreen").classList.add("hidden");
+  document.getElementById("quizScreen").classList.remove("hidden");
+  showQuestion();
 }
 
-function showQuestion(){
-let q=questions[currentQuestion];
+function showQuestion() {
+  const q = questions[currentQuestion];
 
-document.getElementById("progress").innerText="Question "+(currentQuestion+1)+" of "+questions.length;
-document.getElementById("questionText").innerText=q.q;
+  document.getElementById("progress").innerText = "Question " + (currentQuestion + 1) + " of " + questions.length;
+  document.getElementById("questionText").innerText = q.q;
+  document.getElementById("nextButton").innerText = currentQuestion === questions.length - 1 ? "Submit" : "Next";
 
-document.getElementById("nextButton").innerText=currentQuestion===questions.length-1?"Submit":"Next";
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
 
-let optionsDiv=document.getElementById("options");
-optionsDiv.innerHTML="";
+  q.options.forEach((opt, i) => {
+    optionsDiv.innerHTML += `
+      <label class="option">
+        <input type="radio" name="answer" value="${i}">
+        <span><strong>${["A","B","C","D"][i]}.</strong> ${opt}</span>
+      </label>
+    `;
+  });
 
-q.options.forEach((opt,i)=>{
-optionsDiv.innerHTML += `
-<label class="option">
-  <input type="radio" name="a" value="${i}">
-  <span><strong>${["A","B","C","D"][i]}.</strong> ${opt}</span>
-</label>
-`;
-
-startTime=new Date();
+  startTime = new Date();
 }
 
-function nextQuestion(){
-let selected=document.querySelector('input[name="a"]:checked');
-if(!selected){alert("Select answer");return;}
+function nextQuestion() {
+  const selected = document.querySelector('input[name="answer"]:checked');
 
-let index=Number(selected.value);
-let time=Math.floor((new Date()-startTime)/1000);
+  if (!selected) {
+    alert("Please select an answer.");
+    return;
+  }
 
-answers.push({
-questionNumber:currentQuestion+1,
-timeSpentSeconds:time,
-selectedLetter:["A","B","C","D"][index],
-isCorrect:index===questions[currentQuestion].answer
-});
+  const index = Number(selected.value);
+  const time = Math.floor((new Date() - startTime) / 1000);
 
-currentQuestion++;
+  answers.push({
+    questionNumber: currentQuestion + 1,
+    timeSpentSeconds: time,
+    selectedLetter: ["A","B","C","D"][index],
+    isCorrect: index === questions[currentQuestion].answer
+  });
 
-if(currentQuestion<questions.length){
-showQuestion();
-}else{
-submitQuiz();
-}
-}
+  currentQuestion++;
 
-function submitQuiz(){
-let score=answers.filter(a=>a.isCorrect).length;
-let totalTime=answers.reduce((s,a)=>s+a.timeSpentSeconds,0);
-
-fetch(SCRIPT_URL,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-firstName,lastName,score,total:questions.length,totalTimeSeconds:totalTime,answers
-})
-});
-
-document.getElementById("quizScreen").classList.add("hidden");
-document.getElementById("resultScreen").classList.remove("hidden");
-
-document.getElementById("resultText").innerText="Score: "+score+"/"+questions.length;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    submitQuiz();
+  }
 }
 
+function submitQuiz() {
+  const score = answers.filter(a => a.isCorrect).length;
+  const totalTimeSeconds = answers.reduce((sum, a) => sum + a.timeSpentSeconds, 0);
+
+  const payload = {
+    firstName,
+    lastName,
+    score,
+    total: questions.length,
+    totalTimeSeconds,
+    answers
+  };
+
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  document.getElementById("quizScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.remove("hidden");
+  document.getElementById("resultText").innerText =
+    "Thanks " + firstName + "! Score: " + score + "/" + questions.length;
+}
 </script>
-
 </body>
 </html>
